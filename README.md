@@ -1,23 +1,27 @@
-# Olá! 👋 Sou o Luann Firme
+# Cepedi.CleanArch
 
+Executar o projeto `src\Cepedi.WebApi` para abrir o swagger
 
-## Trilha
-![.Net](https://skillicons.dev/icons?i=dotnet)
+## Caracter�sticas do projeto
 
-## Sobre Mim
-- 🎓 Formado em Análise e Desenvolvimento de Sistemas.
-- 🏠 Residindo em Ilhéus-BA.
-  
-## Redes Sociais
-<p align="left">
-<a href="https://www.linkedin.com/in/luann-firme-bomfim/" target="blank"><img src="https://skillicons.dev/icons?i=linkedin" alt="Linkedin - Luann Firme" /></a>
-<a href="https://www.instagram.com/luannfirme" target="blank"><img src="https://skillicons.dev/icons?i=instagram" alt="Instagram - Luann Firme" /></a>
-</p>
+- .NET 7.0
+- ORM Entity Framework
+- Framework de testes: xUnit
+- Framework de assertions: FluentAssertions
+- Framework de Mock: NSubstitute
+- Framework de fake data generator: Bogus
+- Code Analyzer: NetAnalyzers, SonarAnalyzer.Csharp
+- Banco de dados: Sqlite
+- Projeto de testes de unidade
+- Controllers e Actinos atendendo o padr�o RestFull
+- Tratamento de Warning como Error
+- Healthcheck
+    - Liveness
+    - Readyness
+- Log com Serilog
 
-## Modulos
-![C++](https://skillicons.dev/icons?i=cpp)
-![.Net](https://skillicons.dev/icons?i=dotnet)
-![Java](https://skillicons.dev/icons?i=java)
-![Python](https://skillicons.dev/icons?i=python)
-![Angular](https://skillicons.dev/icons?i=angular)
+## Setup
+
+* Quais ferramentas necess�rias
+ - Visual Studio, .NET Core SDK 8+, etc
 
