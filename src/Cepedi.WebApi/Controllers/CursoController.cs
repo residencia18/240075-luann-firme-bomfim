@@ -1,4 +1,5 @@
-﻿using Cepedi.Shareable.Requests;
+﻿using Cepedi.Shareable.Exceptions;
+using Cepedi.Shareable.Requests;
 using Cepedi.Shareable.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,8 @@ public class CursoController : ControllerBase
     }
 
     [HttpGet("{idCurso}")]
+    [ProducesResponseType(typeof(ObtemCursoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErro), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ObtemCursoResponse>> ConsultarCursoAsync([FromRoute] int idCurso, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new ObtemCursoRequest(idCurso), cancellationToken);
@@ -26,6 +29,8 @@ public class CursoController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(CriarCursoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErro), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CriarCursoResponse>> CriarCursoAsync(CriarCursoRequest request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);
@@ -34,6 +39,8 @@ public class CursoController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [ProducesResponseType(typeof(AtualizarCursoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErro), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<AtualizarCursoResponse>> Update(int id, AtualizarCursoRequest request, CancellationToken cancellationToken)
     {
         if (id != request.id)
@@ -45,6 +52,8 @@ public class CursoController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErro), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> Delete(int? id, CancellationToken cancellationToken)
     {
         if (id is null)

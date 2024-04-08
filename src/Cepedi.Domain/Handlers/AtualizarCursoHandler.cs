@@ -21,21 +21,28 @@ public class AtualizarCursoHandler : IRequestHandler<AtualizarCursoRequest, Atua
 
     public async Task<AtualizarCursoResponse> Handle(AtualizarCursoRequest request, CancellationToken cancellationToken)
     {
-        var cursodb = _cursoRepository.Search(curso => curso.Id == request.id).FirstOrDefault();
+        try
+        {
+            var cursodb = _cursoRepository.Search(curso => curso.Id == request.id).FirstOrDefault();
 
-        if (cursodb is null)
-            return default;
+            if (cursodb is null)
+                return default;
 
-        var curso = _mapper.Map<CursoEntity>(request);
+            var curso = _mapper.Map<CursoEntity>(request);
 
-        cursodb = curso;
+            cursodb = curso;
 
-        await _cursoRepository.Put(curso);
+            await _cursoRepository.Put(curso);
 
-        await _unitOfWork.Commit(cancellationToken);
+            await _unitOfWork.Commit(cancellationToken);
 
-        var msg = $"Curso {curso.Nome} atualizado com sucesso !";
+            var msg = $"Curso {curso.Nome} atualizado com sucesso !";
 
-        return new AtualizarCursoResponse(msg);
+            return new AtualizarCursoResponse(msg);
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 }

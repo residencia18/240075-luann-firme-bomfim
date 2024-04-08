@@ -20,17 +20,24 @@ public class ApagarCursoHandler : IRequestHandler<ApagarCursoRequest, ApagarCurs
 
     public async Task<ApagarCursoResponse> Handle(ApagarCursoRequest request, CancellationToken cancellationToken)
     {
-        var curso = _cursoRepository.GetById(request.idCurso);
+        try
+        {
+            var curso = _cursoRepository.GetById(request.idCurso);
 
-        if (curso is null)
-            return default;
+            if (curso is null)
+                return default;
 
-        await _cursoRepository.Delete(curso);
+            await _cursoRepository.Delete(curso);
 
-        await _unitOfWork.Commit(cancellationToken);
+            await _unitOfWork.Commit(cancellationToken);
 
-        var msg = $"Curso {curso.Nome} apagado com sucesso !";
+            var msg = $"Curso {curso.Nome} apagado com sucesso !";
 
-        return new ApagarCursoResponse(msg);
+            return new ApagarCursoResponse(msg);
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 }

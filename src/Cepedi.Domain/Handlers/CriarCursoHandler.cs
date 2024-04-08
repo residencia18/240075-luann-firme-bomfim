@@ -21,14 +21,21 @@ public class CriarCursoHandler : IRequestHandler<CriarCursoRequest, CriarCursoRe
 
     public async Task<CriarCursoResponse> Handle(CriarCursoRequest request, CancellationToken cancellationToken)
     {
-        var curso = _mapper.Map<CursoEntity>(request);
+        try
+        {
+            var curso = _mapper.Map<CursoEntity>(request);
 
-        await _cursoRepository.Post(curso);
+            await _cursoRepository.Post(curso);
 
-        await _unitOfWork.Commit(cancellationToken);
+            await _unitOfWork.Commit(cancellationToken);
 
-        var msg = $"Curso {curso.Nome} criado com sucesso !";
+            var msg = $"Curso {curso.Nome} criado com sucesso !";
 
-        return new CriarCursoResponse(msg);
+            return new CriarCursoResponse(msg);
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 }

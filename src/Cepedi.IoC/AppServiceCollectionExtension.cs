@@ -1,12 +1,13 @@
-﻿using Cepedi.Data;
-using Cepedi.Domain;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using AutoMapper;
+using Cepedi.Data;
 using Cepedi.Data.Repositories;
 using Cepedi.Domain.Interfaces;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
 
 namespace Cepedi.IoC
 {
@@ -15,9 +16,11 @@ namespace Cepedi.IoC
     {
         public static void ConfigureAppDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            services.ConfigureHandlersApp();
+            //services.ConfigureHandlersApp();
 
             ConfigureDbContext(services, configuration);
+
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICursoRepository, CursoRepository>();
@@ -25,6 +28,8 @@ namespace Cepedi.IoC
 
             var mappingConfig = new MapperConfiguration(mc => mc.AddProfile(new AutoMapping()));
             services.AddSingleton(mappingConfig.CreateMapper());
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             //services.AddHttpContextAccessor();
 
@@ -36,8 +41,8 @@ namespace Cepedi.IoC
         {
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
-                options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
-                //options.UseSqlServer(connectionString);
+                //options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddScoped<ApplicationDbContextInitialiser>();
