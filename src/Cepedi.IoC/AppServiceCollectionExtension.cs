@@ -16,8 +16,6 @@ namespace Cepedi.IoC
     {
         public static void ConfigureAppDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.ConfigureHandlersApp();
-
             ConfigureDbContext(services, configuration);
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
@@ -31,8 +29,6 @@ namespace Cepedi.IoC
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            //services.AddHttpContextAccessor();
-
             services.AddHealthChecks()
                 .AddDbContextCheck<ApplicationDbContext>();
         }
@@ -41,7 +37,6 @@ namespace Cepedi.IoC
         {
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
-                //options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 
